@@ -1,0 +1,6 @@
+[submodule "packages/components"]
+	path = packages/components
+	url = http://gitea.ziotalk.com:3000/ZCP.omega.Zio/dashforge.react.components.git
+[submodule "packages/shared"]
+	path = packages/shared
+	url = http://gitea.ziotalk.com:3000/ZCP.omega.Zio/dashforge.react.shared.git

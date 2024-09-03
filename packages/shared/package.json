@@ -1,0 +1,12 @@
+{
+  "name": "@zio/shared",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "공통 라이브러리입니다.8"
+
+}
