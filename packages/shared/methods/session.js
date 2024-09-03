@@ -4,6 +4,7 @@ import { setUser } from '@zio/shared/redux/slices/session'
 import axios from 'axios'
 
 const SessionReload = async() => {
+  console.log('세션리로드함수안으로')
   const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`
   const dispatch = useAppDispatch()
   const response = await axios({
@@ -19,6 +20,7 @@ const SessionReload = async() => {
 }
 
 export const IsSession = () => {
+  console.log('세션체크함수안으로')
   const navigate = useNavigate()
   const { email } = useAppSelector((state)=>state.session)  
  
