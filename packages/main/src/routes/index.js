@@ -12,33 +12,37 @@ import { Blank } from '@zio/components'
 const router = createBrowserRouter([{
   path: "/",
   element: <App/>,
-  children: [{
-    path: "chat",
-    element: <Chat/>,
-    children: [{
-      path: ':userId',
-      element: <Blank/>
-    }]
-  },{
-    path: "settings",
-    element: <Settings/>,
-    children: [{
-      path: ':page',
-      element: <SettingsPage/>
-    }]
-  },{
-    path: "signin",
-    element: <SignIn/>
-  },{
-    path: "signup",
-    element: <SignOut/>
-  },{
-    path: "",
-    element: <Home/>
-  },{
-    path: "*",
-    element: <Page404/>
-  }]
+  children: [
+    {
+      path: "", // 루트외 다른거 없을 때
+      element: <Home/>
+    },{
+      path: "chat",
+      element: <Chat/>,
+      children: [
+        {
+          path: ':userId',
+          element: <Blank/>
+        }
+      ]
+    },{
+      path: "settings",
+      element: <Settings/>,
+      children: [{
+        path: ':page',
+        element: <SettingsPage/>
+      }]
+    },{
+      path: "signin",
+      element: <SignIn/>
+    },{
+      path: "signup",
+      element: <SignOut/>
+    },{
+      path: "*", // 그 외 모든 것
+      element: <Page404/>
+    }
+  ]
 }])
 
 export default router

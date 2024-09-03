@@ -9,6 +9,7 @@ import uiReducer from '@zio/shared/redux/slices/ui'
 import themeReducer from '@zio/shared/redux/slices/theme'
 import sessionReducer from '@zio/shared/redux/slices/session'
 import bandReducer from './slices/band'
+import roomReducer from './slices/room'
 
 const persistConfig = {
   key: 'zioject',
@@ -16,7 +17,7 @@ const persistConfig = {
     'chatUI','theme','band'
   ],
   blacklist: [
-    'ui','session'
+    'ui','session','room'
   ],
   storage,
 }
@@ -26,7 +27,8 @@ export const rootReducer = combineReducers({
   ui: uiReducer,
   theme: themeReducer,
   session: sessionReducer,
-  band: bandReducer
+  band: bandReducer,
+  room: roomReducer
 })
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 

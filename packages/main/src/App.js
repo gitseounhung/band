@@ -10,7 +10,7 @@ function App() {
       console.log('dark');
     });
   }
-
+  
   return (
     <>
       <Toaster position="top-right" reverseOrder={false}/>
