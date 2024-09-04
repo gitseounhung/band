@@ -4,9 +4,13 @@
   color: #8392a5; }
 .df-breadcrumbs .breadcrumb-item a {
   color: #8392a5; }  
-.search-form .form-control{
-  color:#cdd4e0}
-.form-group .form-control{
-  color:#cdd4e0}
+.search-form .form-control {
+  color:#cdd4e0 }
+.form-group .form-control {
+  color:#cdd4e0 }
 .nav-sub-divider {
 	border-color: rgba(255, 255, 255, 0.1); }
+.dropdown .dropdown-menu {
+  background-color: #24324d; }
+  .dropdown-item {
+    color: #97a3b9; }

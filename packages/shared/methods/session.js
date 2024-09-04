@@ -14,7 +14,6 @@ const SessionReload = async() => {
   if (response?.data?.data?.logout) { // 쿠키가 지워졌을 때
     return false
   }
-  console.log('shindalsoo',response?.data?.data)
   dispatch(setUser(response?.data?.data))
   return true
 }
