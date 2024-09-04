@@ -33,7 +33,7 @@ const Dropdown = ({children, className, ...restProps}) => {
 
   return (
     <div 
-      className={`${className} shindalsoo`}
+      className={`${className}`}
       ref={containerRef}
       {...restProps}
     >
