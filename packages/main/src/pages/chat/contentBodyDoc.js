@@ -2,9 +2,10 @@ import React, { Fragment, useState } from 'react'
 import { useAppSelector } from '@zio/shared/redux/hooks'
 import { Spinner } from '@zio/components'
 
-const ContentBodyDoc = ({leftSidebar}) => {
+const ContentBodyDoc = () => {
   const [loading, setLoading] = useState(false)
   const docUrl = useAppSelector(state=>state?.band?.docUrl)
+  const leftSidebar = useAppSelector((state)=>state.chatUI.leftSidebar)
 
   return (
     <Fragment>

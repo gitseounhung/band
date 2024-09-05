@@ -91,7 +91,7 @@ const SignIn = () => {
                 <div className="form-group">
                   <div className="d-flex justify-content-between mg-b-5">
                     <label className="mg-b-0-f">Password</label>
-                    <a href="" className="tx-13">Forgot password?</a>
+                    <a href="" className="tx-13" tabIndex={-1}>Forgot password?</a>
                   </div>
                   <input 
                     type="password" 

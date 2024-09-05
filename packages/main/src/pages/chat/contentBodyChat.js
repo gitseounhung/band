@@ -6,21 +6,24 @@ import ContentBodyChatBubble from './contentBodyChatBubble'
 import moment from 'moment'
 import { RiChatVoiceFill, RiUserFollowLine } from "react-icons/ri"
 
-const ContentBodyChat = ({leftSidebar}) => {
+const ContentBodyChat = () => {
   const dispatch = useAppDispatch()
-  const params = useParams()
-  
+  const leftSidebar = useAppSelector((state)=>state.chatUI.leftSidebar)
+  const params = useParams()  
   const paramsUserId = params?.userId 
   const [allMessage,setAllMessage] = useState([])
   const {socketConnection } = useAppSelector((state)=>state.session)
+  const inputMessage = useAppSelector(state=>state.band.inputMessage)
   const myUser = useAppSelector((state)=>state.session)
   const toUser = useAppSelector((state)=>state.room)  
   const currentMessage = useRef(null)
 
+  console.log('inputMessage',inputMessage)
+
   useEffect(()=>{
-      if (currentMessage.current){
-          currentMessage.current?.scrollIntoView({block:'end'}) //behavior:'smooth'는 크롬에서 동작하지 않음
-      }
+    if (currentMessage.current){
+      currentMessage.current?.scrollIntoView({block:'end'}) //behavior:'smooth'는 크롬에서 동작하지 않음
+    }
   },[allMessage]) //전체 메세지 변경될때마다
 
   useEffect(()=>{
@@ -60,17 +63,17 @@ const ContentBodyChat = ({leftSidebar}) => {
       className={`chat-group ${leftSidebar==='chat' ? "" : "d-none"}`}
       ref={currentMessage}
     >
-      {
+      { // 대화상대자를 선택안했을 때
         !paramsUserId && (
           <div className="chat-group-divider"><RiUserFollowLine size={30}/><span className="p-2 fs-5">최근 대화 또는, 멤버를 선택하세요.</span></div>
         )
       }
-      {
+      { // 대화상대자와 대화가 1건도 없을 때
         paramsUserId && !allMessage && (
           <div className="chat-group-divider text-success"><RiChatVoiceFill size={30}/><span className="p-2 fs-5">첫 대화를 시작해 보세요.</span></div>
         )
       }
-      {
+      { // 그 동안 대화했던 내용 표시
         (allMessage?.sender === paramsUserId || allMessage?.receiver === paramsUserId) 
         && paramsUserId 
         && allMessage?.messages?.map((msg,index)=>{
