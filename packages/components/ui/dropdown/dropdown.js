@@ -23,7 +23,8 @@ const Dropdown = ({children, className, ...restProps}) => {
     if (el.props.className.includes('dropdown-menu')) {
       return (
         <el.type
-            {...el.props} // 리엑트에서는 이것을 children으로 받나보다.
+            {...el.props} // 리엑트에서는 이것을 children으로 받음
+            onClick={handleClick}
             show={show}
         />
       )  
