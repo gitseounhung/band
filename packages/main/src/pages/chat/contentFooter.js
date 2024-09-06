@@ -11,38 +11,53 @@ const ContentFooter = () => {
   const params = useParams()
   const dispatch = useAppDispatch()
   const session = useAppSelector(state => state?.session)
+  const inputMessage = useAppSelector(state => state?.band?.inputMessage)
   const [input,setInput] = useState({
     text: "",
     imageUrl: "",
     videoUrl: ""
   })
 
+  console.log('input',input)
+
   const handleUploadFile = async(key,e)=>{
     const file = e.target.files[0]
+    dispatch(setInputMessage({
+        text: 'loading'
+    }))
     const response = await uploadFile(file)
-    handleMessageChange(key,response.url)
-    dispatch(setInputMessage(input))
-  }
-  const handleMessageChange = (key,value) => {
     setInput(preve=>{
       return {
-          ...preve,
-          imageUrl: key==='imageUrl' ? value : preve.imageUrl,
-          videoUrl: key==='videoUrl' ? value : preve.videoUrl,
-          text: key==='text' ? value : preve.text
+        ...preve,
+        imageUrl: key==='imageUrl' ? response.url : preve?.imageUrl,
+        videoUrl: key==='videoUrl' ? response.url : preve?.videoUrl
+      }
+    })
+    // dispatch(setInputMessage(input)) 이렇게 전달하면 100% 업데이트된 값이 전달안됨 useState가 비동기임
+    dispatch(setInputMessage({
+        ...input,
+        imageUrl: key==='imageUrl' ? response.url : input?.imageUrl,
+        videoUrl: key==='videoUrl' ? response.url : input?.videoUrl
+    }))
+  }
+  const handleTxtChange = (e) => {
+    setInput(preve=>{
+      return {
+        ...preve,
+        text: e.target.value
       }
     }) 
   }
   const handleSendMessage = (e) => {
     e.preventDefault()
-    if (input?.text || input?.imageUrl || input?.videoUrl){
+    if (input?.text || inputMessage?.imageUrl || inputMessage?.videoUrl){
       if (params.userId && session.socketConnection){
         session.socketConnection.emit('new message',{
           sender: session?._id,
           receiver: params.userId,
           text: input?.text,
-          imageUrl: input?.imageUrl,
-          videoUrl: input?.videoUrl,
+          imageUrl: inputMessage?.imageUrl,
+          videoUrl: inputMessage?.videoUrl,
           msgByUserId: session?._id
         })
         setInput({
@@ -68,7 +83,7 @@ const ContentFooter = () => {
           className="form-control align-self-center bd-0" 
           placeholder="새로운 대화를 입력하세요."
           value={input?.text}
-          onChange={(e)=>handleMessageChange('text',e.target.value)}
+          onChange={(e)=>handleTxtChange(e)}
         />
       </form>
       <nav>

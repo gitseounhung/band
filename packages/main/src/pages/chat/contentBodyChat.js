@@ -1,20 +1,22 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Fragment } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@zio/shared/redux/hooks'
-import {setRoom} from '../../redux/slices/room'
+import { setRoom } from '../../redux/slices/room'
+import { setInputMessage } from '../../redux/slices/band'
 import ContentBodyChatBubble from './contentBodyChatBubble'
 import moment from 'moment'
-import { RiChatVoiceFill, RiUserFollowLine } from "react-icons/ri"
+import { RiChatVoiceFill, RiUserFollowLine, RiCloseLargeLine } from "react-icons/ri"
+import { Spinner } from '@zio/components'
+
 
 const ContentBodyChat = () => {
   const dispatch = useAppDispatch()
   const leftSidebar = useAppSelector((state)=>state.chatUI.leftSidebar)
   const params = useParams()  
-  const paramsUserId = params?.userId 
+  const paramsUserId = params?.userId
   const [allMessage,setAllMessage] = useState([])
-  const {socketConnection } = useAppSelector((state)=>state.session)
+  const {socketConnection, ...myUser } = useAppSelector((state)=>state.session)
   const inputMessage = useAppSelector(state=>state.band.inputMessage)
-  const myUser = useAppSelector((state)=>state.session)
   const toUser = useAppSelector((state)=>state.room)  
   const currentMessage = useRef(null)
 
@@ -24,7 +26,7 @@ const ContentBodyChat = () => {
     if (currentMessage.current){
       currentMessage.current?.scrollIntoView({block:'end'}) //behavior:'smooth'는 크롬에서 동작하지 않음
     }
-  },[allMessage]) //전체 메세지 변경될때마다
+  },[allMessage, inputMessage]) //전체 메세지 변경될때마다
 
   useEffect(()=>{
     console.log('대화상대(방)가 바뀔때 1회만 호출해야함',paramsUserId)
@@ -56,6 +58,14 @@ const ContentBodyChat = () => {
     }
   },[socketConnection]) // 소켓은 대화상대랑 상관없이 1번만 맺어지는것임. 메세지 수신은 소켓연결후 1번만 메모리에 위치, 중복호출되면, 소켓수신모듈이 여러개 생김^^
 
+  const handleInputCancel = (key)=>{
+    dispatch(setInputMessage({
+      ...inputMessage,
+      imageUrl: key==='imageUrl' ? "" : inputMessage?.imageUrl,
+      videoUrl: key==='videoUrl' ? "" : inputMessage?.videoUrl
+    }))
+  }
+
   let isYmd = true, ymd = ""
 
   return (
@@ -63,6 +73,7 @@ const ContentBodyChat = () => {
       className={`chat-group ${leftSidebar==='chat' ? "" : "d-none"}`}
       ref={currentMessage}
     >
+
       { // 대화상대자를 선택안했을 때
         !paramsUserId && (
           <div className="chat-group-divider"><RiUserFollowLine size={30}/><span className="p-2 fs-5">최근 대화 또는, 멤버를 선택하세요.</span></div>
@@ -90,6 +101,46 @@ const ContentBodyChat = () => {
           )
         })
       } 
+      { // 업로드하려는 이미지/동영상 미리보기
+        inputMessage?.txt!=='loading' && inputMessage?.imageUrl && (
+          <div className='d-flex w-100 h-100 mg-t-20 p-4 rounded overflow-hidden justify-content-center'>
+            <div className='pd-l-20'>
+              <img
+                src={inputMessage?.imageUrl}
+                className='img-thumbnail wd-100p'
+              />
+            </div>
+            <div onClick={()=>handleInputCancel('imageUrl')} className='pd-l-15'>
+              <RiCloseLargeLine size={30}/>
+            </div>
+          </div>
+        )
+      }
+      {
+        inputMessage?.text!=='loading' && inputMessage?.videoUrl && (
+          <div className='d-flex w-100 h-100 mg-t-20 p-4 rounded overflow-hidden justify-content-center'>
+            <div className='pd-l-20'>
+              <video
+                src={inputMessage?.videoUrl}
+                className='img-thumbnail wd-100p'
+                controls
+                muted
+                autoPlay
+              />
+            </div>
+            <div onClick={()=>handleInputCancel('videoUrl')} className='pd-l-15'>
+              <RiCloseLargeLine size={30}/>
+            </div>
+          </div>
+        )
+      }
+      {
+        inputMessage?.text==='loading' && (
+          <div className='w-100 h-100 text-center'>
+            <Spinner/>
+          </div>
+        )
+      }      
     </div>
   )
 }

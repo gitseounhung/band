@@ -3,7 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   searchTxt: "", // 검색어
   docUrl: "about:blank", // 문서URL
-  inputMessage: {}
+  inputMessage: {
+    text: "",
+    imageUrl: "",
+    videoUrl: ""
+  }
 }
 
 const bandSlice = createSlice({
