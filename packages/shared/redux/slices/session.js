@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+    isSession: false,
     _id: "",
     name: "",
     email: "",
@@ -15,6 +16,7 @@ export const sessionSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state,action)=>{
+            state.isSession = true
             state._id = action.payload._id
             state.name = action.payload.name
             state.email = action.payload.email
@@ -24,6 +26,7 @@ export const sessionSlice = createSlice({
             state.token = action.payload
         },
         logout: (state,action)=>{
+            state.isSession = false
             state._id = ""
             state.name = ""
             state.email = ""

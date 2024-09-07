@@ -19,18 +19,27 @@ const SessionReload = async() => {
 }
 
 export const IsSession = () => {
-  console.log('세션체크함수안으로')
+  if (!localStorage.getItem('token')) return false
+  if (localStorage.getItem('token')==='') return false
+  return true
+}
+export const IsSession2 = (email) => {
+  const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`
   const navigate = useNavigate()
-  const { email } = useAppSelector((state)=>state.session)  
- 
-  if (!localStorage.getItem('token')) {  // 로컬스토리지가 없을 때
-    navigate('/signin')
-  } else if (email===''){ // 토큰은 있으나. 세션이 없는 경우 세션복원
-    console.log('세션복원')
-    SessionReload()
-      .then((result)=>{
-        if (!result) navigate('/signin')
-      })
-      .catch((err)=>{console.log('프로미스에러',err)})
-  }
+  if (email!==''&& email!==undefined) return // 나가기
+  axios({
+    url: URL,
+    withCredentials: true // 이 부분 넘겨줘야 서버에서 브라우저에 쿠키를 읽어옴
+  })
+  .then((response)=>{
+    if (response?.data?.data?.logout) { // 쿠키가 지워졌을 때
+      navigate('/signin')
+    }
+    console.log('세션값',response)
+    dispatch(setUser(response?.data?.data))
+  })
+  .catch(()=>{
+    console.log('오류?')
+    // navigate('/signin')
+  })
 }
