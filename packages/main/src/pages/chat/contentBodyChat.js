@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppSelector, useAppDispatch } from '@zio/shared/redux/hooks'
 import { setRoom } from '../../redux/slices/room'
@@ -7,7 +7,6 @@ import ContentBodyChatBubble from './contentBodyChatBubble'
 import moment from 'moment'
 import { RiChatVoiceFill, RiUserFollowLine, RiCloseLargeLine } from "react-icons/ri"
 import { Spinner } from '@zio/components'
-
 
 const ContentBodyChat = () => {
   const dispatch = useAppDispatch()
@@ -30,6 +29,7 @@ const ContentBodyChat = () => {
 
   useEffect(()=>{
     console.log('대화상대(방)가 바뀔때 1회만 호출해야함',paramsUserId)
+    console.log('socketConnection',socketConnection)
     if(socketConnection){
       // 1. 대화상대자 신상정보 물어보기
       socketConnection.emit('message-page',paramsUserId)
@@ -40,7 +40,7 @@ const ContentBodyChat = () => {
         dispatch(setRoom(data))
       })
     }
-  },[paramsUserId]) // 대화 상대가 바뀔때만 실행
+  },[socketConnection, paramsUserId]) // 대화 상대가 바뀔때만 실행
 
   useEffect(()=>{
     if(socketConnection){

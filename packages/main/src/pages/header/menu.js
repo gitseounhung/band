@@ -2,10 +2,10 @@ import React from 'react'
 import FeatherIcon from 'feather-icons-react';
 import { Navbar } from '@zio/components'
 import { menuDataOut, menuDataIn } from '@zio/main/src/data'
-import { useAppSelector } from '@zio/shared/redux/hooks'
+import { useAppSelector } from '@zio/shared/redux/hooks';
 
 const Menu = () => {
-  const { email } = useAppSelector((state)=>state.session)
+  const isSession = useAppSelector(state=>state.session.isSession)
 
   const handleNavbarMenuHide = (e) => {
     e.preventDefault()
@@ -16,10 +16,10 @@ const Menu = () => {
   return (
     <div id="navbarMenu" className="navbar-menu-wrapper" >
       <div className="navbar-menu-header">
-        <a href="../../index.html" className="df-logo">zio.<span>ject</span></a>
-        <a onClick={handleNavbarMenuHide} href=""><FeatherIcon icon="x"/></a>
+        <a href="#" className="df-logo">zio.<span>ject</span></a>
+        <a onClick={handleNavbarMenuHide} href="#"><FeatherIcon icon="x"/></a>
       </div>
-      <Navbar menus={email ? menuDataIn : menuDataOut}/>
+      <Navbar menus={isSession ? menuDataIn : menuDataOut}/>
     </div>
   )
 }
