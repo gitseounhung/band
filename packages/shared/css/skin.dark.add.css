@@ -14,3 +14,7 @@
   background-color: #24324d; }
   .dropdown-item {
     color: #97a3b9; }
+div:where(.swal2-container) div:where(.swal2-popup) {
+  background: #29292e;
+  color: #545454;
+}    
