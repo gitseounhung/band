@@ -25,6 +25,9 @@ const SignIn = () => {
       }
     })
   }
+  const handleOnKeyUp = (e) => {
+    if (e.key === 'Enter') handleSubmit(e)
+  }
   const handleSubmit = async(e)=>{
     e.preventDefault()
     e.stopPropagation()
@@ -101,6 +104,7 @@ const SignIn = () => {
                     placeholder="Enter your password"
                     value={data.password}
                     onChange={handleOnChange}
+                    onKeyUp={handleOnKeyUp}
                   />
                 </div>
                 <button 

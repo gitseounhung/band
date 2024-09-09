@@ -21,7 +21,7 @@ const router = createBrowserRouter([{
       element: <Chat/>,
       children: [
         {
-          path: ':userId',
+          path: ':channelId',
           element: <Blank/>
         }
       ]

@@ -51,14 +51,13 @@ const ContentFooter = () => {
   const handleSendMessage = (e) => {
     e.preventDefault()
     if (input?.text || inputMessage?.imageUrl || inputMessage?.videoUrl){
-      if (params.userId && session.socketConnection){
+      if (params.channelId && session.socketConnection){
         session.socketConnection.emit('new message',{
-          sender: session?._id,
-          receiver: params.userId,
+          channelId: params.channelId,
           text: input?.text,
           imageUrl: inputMessage?.imageUrl,
           videoUrl: inputMessage?.videoUrl,
-          msgByUserId: session?._id
+          writeUser: session?._id
         })
         setInput({
           text: "",
@@ -66,7 +65,7 @@ const ContentFooter = () => {
           videoUrl: ""
         })
         dispatch(setInputMessage(null))
-        toast.success(`${params.userId}님에게 메세지를 성공적으로 보냈습니다.`,{
+        toast.success(`${params.channelId}에 메세지를 성공적으로 보냈습니다.`,{
           duration: 2000,
           position: 'top-center',
         })

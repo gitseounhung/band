@@ -2,9 +2,8 @@ import React, {Fragment} from 'react'
 import { Avatar } from '@zio/components'
 import moment from 'moment'
 
-const ContentBodyChatBubble = ({msg,myUser,toUser,isYmd}) => {
-  const isMe = myUser?._id === msg?.msgByUserId
-
+const ContentBodyChatBubble = ({channel,session,msg,isYmd}) => {
+  const isMe = session?._id === msg?.writeUser._id // 조인걸었을 때 object덩어리로 변함
   return (
     <Fragment>
       { // 날짜 구분선 추가표시
@@ -20,9 +19,9 @@ const ContentBodyChatBubble = ({msg,myUser,toUser,isYmd}) => {
         }
       `}>
         <Avatar
-          userId={isMe ? myUser?._id : toUser?._id}
-          name={isMe ? myUser?.name : toUser?.name}
-          imageUrl={isMe ? myUser?.profile_pic : toUser?.profile_pic}
+          userId={msg?.writeUser?._id}
+          name={msg?.writeUser?.name}
+          imageUrl={msg?.writeUser?.profile_pic}
           width={32}
           height={32}
         />
@@ -33,7 +32,7 @@ const ContentBodyChatBubble = ({msg,myUser,toUser,isYmd}) => {
                 <small className="mg-r-10">{moment(msg.createdAt).format('hh:mm')}</small>
               )
             }
-            {isMe ? myUser?.name : toUser?.name}
+            {msg?.writeUser?.name}
             {
               !isMe && (
                 <small className="mg-l-10">{moment(msg.createdAt).format('hh:mm')}</small>
