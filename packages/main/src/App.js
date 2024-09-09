@@ -35,6 +35,7 @@ function App() {
     import('@zio/shared/css/skin.dark.css').then(() => {
       console.log('dark');
     });
+    import('@sweetalert2/theme-dark/dark.css')
   }
   
   return (

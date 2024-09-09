@@ -4,11 +4,11 @@ import ContentRightMembers from './contentRightMembers'
 
 const ContentRight = () => {
   return (
-        <div className="chat-sidebar-right">
-          <ScrollBar>  
-            <ContentRightMembers/>
-          </ScrollBar>
-        </div>
+    <div className="chat-sidebar-right">
+      <ScrollBar>  
+        <ContentRightMembers/>
+      </ScrollBar>
+    </div>
   )
 }
 

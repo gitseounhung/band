@@ -12,6 +12,7 @@
   ],
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
+    "@sweetalert2/theme-dark": "^5.0.18",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -31,6 +32,7 @@
     "socket.io-client": "^4.7.5",
     "styled-components": "^6.1.12",
     "styled-system": "^5.1.5",
+    "sweetalert2": "^11.13.3",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {

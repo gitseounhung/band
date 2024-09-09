@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, Fragment } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import ContentRightMembersCard from './contentRightMembersCard'
@@ -6,7 +6,7 @@ import { Spinner } from '@zio/components'
 import { RiSearchLine, RiEyeOffLine } from "react-icons/ri"
 import { useAppSelector } from '@zio/shared/redux/hooks'
 import { useParams } from 'react-router-dom'
-import FeatherIcon from 'feather-icons-react'
+import { RiUserAddLine } from 'react-icons/ri'
 
 const ContentRightMembers = () => {
   const { searchTxt } = useAppSelector((state)=>state.band)
@@ -29,9 +29,11 @@ const ContentRightMembers = () => {
       toast.error(error?.response?.data?.message)
     }
   }
-  const handleAddMembers = () => {
-    toast.success('추가할 대화상대를 검색하세요.')
-    // searchInputRef.current.focus();
+  const handleJoinMember = () => {
+    
+  }
+  const handleSubmitJoin = () => {
+
   }
 
   useEffect(()=>{
@@ -49,11 +51,8 @@ const ContentRightMembers = () => {
     <div className="pd-y-20 pd-x-10" ref={currentMessage}>
       <div className="d-flex justify-content-between align-items-center pd-x-10">
         <span className="tx-10 tx-uppercase tx-medium tx-color-03 tx-sans tx-spacing-1">Members List</span>
-        <a 
-          className="chat-btn-add" 
-          onClick={handleAddMembers}
-        >
-          <span data-bs-toggle="tooltip" title="대화 상대 추가"><FeatherIcon icon="plus-circle"/></span>
+        <a className="chat-btn-add">
+          <span data-bs-toggle="tooltip" title="대화 상대 추가"><RiUserAddLine size={20}/></span>
         </a>
       </div>
       
