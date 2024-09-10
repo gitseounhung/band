@@ -18,8 +18,6 @@ const ContentFooter = () => {
     videoUrl: ""
   })
 
-  console.log('input',input)
-
   const handleUploadFile = async(key,e)=>{
     const file = e.target.files[0]
     dispatch(setInputMessage({

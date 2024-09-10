@@ -7,6 +7,7 @@ import ContentBodyChatBubble from './contentBodyChatBubble'
 import moment from 'moment'
 import { RiChatVoiceFill, RiUserFollowLine, RiCloseLargeLine } from "react-icons/ri"
 import { Spinner } from '@zio/components'
+import toast from 'react-hot-toast'
 
 const ContentBodyChat = () => {
   const dispatch = useAppDispatch()
@@ -25,9 +26,7 @@ const ContentBodyChat = () => {
     }
   },[allMessage, inputMessage]) //전체 메세지 변경될때마다
 
-  useEffect(()=>{
-    console.log('대화상대(방)가 바뀔때 1회만 호출해야함',paramChannelId)
-    console.log('socketConnection',socketConnection)
+  useEffect(()=>{ // 채널 변경시
     if(socketConnection && paramChannelId){
       // 1. 채널정보 물어보기
       socketConnection.emit('message-page',paramChannelId)
@@ -37,13 +36,8 @@ const ContentBodyChat = () => {
       socketConnection.on('message-channel',(data)=>{
         dispatch(setChannel(data))
       })
-    }
-  },[socketConnection, paramChannelId]) // 대화 상대가 바뀔때만 실행
-
-  useEffect(()=>{
-    if(socketConnection){
-      // 대화목록 수신
-      socketConnection.on('messages',(data)=>{ // 이걸 왜 여러번 수신할까?
+      // 3. 초기 대화내용 전체 수신
+      socketConnection.on('init messages',(data)=>{ // 이걸 왜 여러번 수신할까?
         console.log('데이타 수신은 중복 수신체크바람',data)
         console.log('paramChannelId 값 없는거 주목',paramChannelId) //이 값이 undefined임 왜그럴까? 이유는 socketConnection 최초1회만 메모리에 떠있기때문
         console.log('dd',Object.keys(data).length)
@@ -51,11 +45,46 @@ const ContentBodyChat = () => {
           setAllMessage(null)
         } else {
           console.log('신달수 데이타사라짐',data)
-          setAllMessage(data?.messages)
+          console.log(`들어가기전: ${data._id}, ${paramChannelId}`)
+          if (data._id === paramChannelId){
+            setAllMessage(data?.messages)
+          }
         }
-      })            
+      }) 
+      // 재 랜더링 될때 해제시키기
+      return () => {
+        socketConnection.off("message-channel");
+        socketConnection.off("init messages");
+      }
     }
-  },[socketConnection]) // 소켓은 대화상대랑 상관없이 1번만 맺어지는것임. 메세지 수신은 소켓연결후 1번만 메모리에 위치, 중복호출되면, 소켓수신모듈이 여러개 생김^^
+  },[socketConnection, paramChannelId]) // 소켓은 대화상대랑 상관없이 1번만 맺어지는것임. 메세지 수신은 소켓연결후 1번만 메모리에 위치, 중복호출되면, 소켓수신모듈이 여러개 생김^^
+
+  useEffect(()=>{ // 새로운 대화발생 시, 수신
+    if(socketConnection){      
+      socketConnection.on('new messages',(data)=>{ // 이걸 왜 여러번 수신할까?
+        console.log('데이타 수신은 중복 수신체크바람',data)
+        console.log('paramChannelId 값 없는거 주목',paramChannelId) //이 값이 undefined임 왜그럴까? 이유는 socketConnection 최초1회만 메모리에 떠있기때문
+        console.log('dd',Object.keys(data).length)
+        if (Object.keys(data).length===0){ // 값이 []일때 == 대화방이 없을 때
+          setAllMessage(null)
+        } else {
+          console.log('신달수 데이타사라짐',data)
+          console.log(`들어가기전: ${data._id}, ${paramChannelId}`)
+          if (data._id === paramChannelId){
+            setAllMessage(data?.messages)
+          }
+          const lastMsg = data?.messages.at(-1) // 맨 마지막 1개
+          console.log(`lastMsg:${lastMsg.writeUser?._id}, ${session._id}`)
+          if (lastMsg.writeUser?._id !== session._id){
+            toast.success(`${lastMsg?.writeUser?.name}님의 대화: ${lastMsg?.text}`)
+          }
+        }
+      }) 
+      return () => { // 재랜더링 될때 호출됨
+        socketConnection.off("new messages");
+      }
+    }
+  },[socketConnection,paramChannelId]) // 소켓은 대화상대랑 상관없이 1번만 맺어지는것임. 메세지 수신은 소켓연결후 1번만 메모리에 위치, 중복호출되면, 소켓수신모듈이 여러개 생김^^
 
   const handleInputCancel = (key)=>{
     dispatch(setInputMessage({
@@ -84,7 +113,6 @@ const ContentBodyChat = () => {
         )
       }
       { // 그 동안 대화했던 내용 표시
-        // (allMessage?.sender === paramChannelId || allMessage?.receiver === paramChannelId) && 
         paramChannelId 
         && allMessage?.map((msg,index)=>{
           isYmd = ymd !== moment(msg.createdAt).format('YYYY-MM-DD')

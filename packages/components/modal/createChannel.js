@@ -17,7 +17,6 @@ const ModalCreateChannel = ({modal, onClose}) => {
     e.stopPropagation()
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/create-channel`
     try {
-      console.log('input',input)
       const response = await axios.post(URL,{
         userId: session?._id,
         channelName: input,
