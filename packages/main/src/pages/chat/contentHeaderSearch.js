@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FeatherIcon from 'feather-icons-react';
 import { useAppSelector, useAppDispatch } from '@zio/shared/redux/hooks';
 import { setSearchTxt } from '../../redux/slices/band'
 
 const ContentHeaderSearch = () => {
   const dispatch = useAppDispatch()
-  const [input,setInput] = useState(useAppSelector(state=>state?.band?.searchTxt))
+  const searchTxt = useAppSelector(state=>state?.band?.searchTxt)
+  const [input,setInput] = useState(searchTxt)
   const handleKeyDown = (e) => {
     if (e.key!=='Enter') return
     dispatch(setSearchTxt(input))
   }
+  useEffect(()=>{
+    setInput(searchTxt)
+  },[searchTxt])
 
   return (
     <div className="search-form mg-l-15 d-none d-sm-flex">

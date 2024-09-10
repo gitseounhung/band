@@ -10,18 +10,31 @@ import { RiUserAddLine } from 'react-icons/ri'
 
 const ContentRightMembers = () => {
   const { searchTxt } = useAppSelector((state)=>state.band)
+  const [channelMembers, setChannelMembers] = useState([]) // 채널맴범들
   const [searchUser, setSearchUser] = useState([]) // 검색결과
   const [loading, setLoading] = useState(false)
   const currentMessage = useRef(null)
   const params = useParams()
 
+  const handleChannelMembers = async() => {
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/channelMembers`
+    try{
+      setLoading(true)
+      const response = await axios.post(URL,{
+          channelId: params.channelId
+      })
+      setLoading(false)
+      setChannelMembers(response.data.data)
+    }catch(error){
+      toast.error(error?.response?.data?.message)
+    }
+  }
   const handleSearchUser = async() => {
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/search-user`
     try{
       setLoading(true)
       const response = await axios.post(URL,{
-          search: searchTxt,
-          channelId: params.channelId
+          search: searchTxt
       })
       setLoading(false)
       setSearchUser(response.data.data)
@@ -29,23 +42,22 @@ const ContentRightMembers = () => {
       toast.error(error?.response?.data?.message)
     }
   }
-  const handleJoinMember = () => {
-    
-  }
-  const handleSubmitJoin = () => {
-
-  }
 
   useEffect(()=>{
-      if (currentMessage.current){
-          currentMessage.current?.scrollIntoView({block:'start'}) //behavior:'smooth'는 크롬에서 동작하지 않음
-      }
+    console.log('찾아줘')
+    handleChannelMembers()
+  },[params.channelId]) // 검색어가 변경될때 마다
+
+  useEffect(()=>{
+    if (currentMessage.current){
+      currentMessage.current?.scrollIntoView({block:'start'}) //behavior:'smooth'는 크롬에서 동작하지 않음
+    }
   },[searchUser]) //검색결과가 바뀔때 마다
 
   useEffect(()=>{
     console.log('찾아줘')
     handleSearchUser()
-  },[searchTxt, params.channelId])
+  },[searchTxt]) // 검색어가 변경될때 마다
 
   return (
     <div className="pd-y-20 pd-x-10" ref={currentMessage}>
@@ -58,7 +70,7 @@ const ContentRightMembers = () => {
       
       <div className="chat-member-list">
         {
-          !params.channelId && searchTxt.length === 0 && !loading && (
+          searchTxt.length === 0 && !params.channelId && !loading && (
             <div className='mt-12'>
               <div className='text-center m-5 tx-color-03'><RiSearchLine size={40}/></div>
               <p className='text-center m-5 tx-color-03'>대화 상대를 검색하세요.</p>
@@ -79,10 +91,31 @@ const ContentRightMembers = () => {
           )
         }
         {
+          channelMembers.length !==0 && searchTxt.length === 0 && !loading && (
+            channelMembers.map((user,index)=>{
+              return(
+                <ContentRightMembersCard 
+                  channelId={params.channelId} 
+                  user={user} 
+                  isMember={true}
+                  setChannelMembers={setChannelMembers}                  
+                />                  
+              )
+            })
+          ) 
+        }
+        {
           searchUser.length !==0 && !loading && (
             searchUser.map((user,index)=>{
+              // let isMember = channelMembers.includes(user._id)
+              const isMember = channelMembers.some(u => u._id == user._id)
               return(
-                <ContentRightMembersCard user={user}/>                  
+                <ContentRightMembersCard 
+                  channelId={params.channelId} 
+                  user={user} 
+                  isMember={isMember}
+                  setChannelMembers={setChannelMembers}                  
+                />
               )
             })
           ) 

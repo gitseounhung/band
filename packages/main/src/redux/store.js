@@ -14,7 +14,7 @@ import channelReducer from './slices/channel'
 const persistConfig = {
   key: 'zioject',
   whitelist: [
-    'chatUI','theme','band'
+    'chatUI','theme'
   ],
   blacklist: [
     'ui','session','channel'
