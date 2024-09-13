@@ -3,10 +3,9 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import ContentRightMembersCard from './contentRightMembersCard'
 import { Spinner } from '@zio/components'
-import { RiSearchLine, RiEyeOffLine } from "react-icons/ri"
+import { RiSearchLine, RiEyeOffLine, RiUser3Line } from "react-icons/ri"
 import { useAppSelector } from '@zio/shared/redux/hooks'
 import { useParams } from 'react-router-dom'
-import { RiUserAddLine } from 'react-icons/ri'
 
 const ContentRightMembers = () => {
   const { searchTxt } = useAppSelector((state)=>state.band)
@@ -62,9 +61,14 @@ const ContentRightMembers = () => {
   return (
     <div className="pd-y-20 pd-x-10" ref={currentMessage}>
       <div className="d-flex justify-content-between align-items-center pd-x-10">
-        <span className="tx-10 tx-uppercase tx-medium tx-color-03 tx-sans tx-spacing-1">Members List</span>
+        <span className="tx-10 tx-uppercase tx-medium tx-color-03 tx-sans tx-spacing-1">
+          {`${searchTxt.length===0 ? "Members List" : "검색 결과"}`}
+        </span>
         <a className="chat-btn-add">
-          <span data-bs-toggle="tooltip" title="대화 상대 추가"><RiUserAddLine size={20}/></span>
+          <span data-bs-toggle="tooltip">
+            {searchTxt.length===0 && (<RiUser3Line size={20}/>)}
+            {searchTxt.length!==0 && (<RiSearchLine size={20}/>)}
+          </span>
         </a>
       </div>
       

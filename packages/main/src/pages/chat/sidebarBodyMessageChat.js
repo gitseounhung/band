@@ -16,8 +16,12 @@ const SidebarBodyMessageChat = () => {
       console.log('session',session)
       socketConnection.emit('sidebar',session._id)
       socketConnection.on('channel-list',(channels)=>{
+        console.log('지금보고있는거',channels)
         setAllChannel(channels)
       })
+      return () => { // 재랜더링 될때 호출됨
+        socketConnection.off("channel-list");
+      }
     }
   },[socketConnection,session])
 
@@ -54,18 +58,18 @@ const SidebarBodyMessageChat = () => {
                       width={32}
                       height={32}
                   />
-                  
                   <div className="media-body mg-l-10">
                       <h6 className="d-flex mg-b-0">
                         {channel?.name}
                         {
                           Boolean(channel?.unseenMsg) && (
-                            <span className="badge text-bg-danger" style={{marginLeft:"auto"}}>5</span>
+                            <span className="badge text-bg-success" style={{marginLeft:"auto"}}>n</span>
                           )
                         }                        
                       </h6>
-                      <small className="d-block tx-color-04">1 시간 전, {channel?.lastMsgText}</small>
+                      <small className="d-block tx-color-03">1 시간 전, {channel?.lastMsgText}</small>
                   </div>
+                  
               </div>
             )
           })

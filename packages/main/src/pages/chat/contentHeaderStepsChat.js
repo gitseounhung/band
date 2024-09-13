@@ -8,17 +8,15 @@ const ContentHeaderStepsChat = () => {
   const channel = useAppSelector(state=>state.channel)
   
   return (
-    <Fragment>
+    <div className="media align-items-center">
       {
         !params.channelId && (
-          <div className="media align-items-center">
-            <span className="tx-color-04">최근 대화 또는 멤버를 선택하세요.</span>
-          </div>
+          <span className="tx-color-04">최근 대화 또는 멤버를 선택하세요.</span>
         )
       }
       {
         params.channelId && (
-          <div className="media align-items-center">
+          <Fragment>
             <Avatar
               userId={channel?._id}
               name={channel?.name}
@@ -26,13 +24,14 @@ const ContentHeaderStepsChat = () => {
               width={32}
               height={32}
             />
-            <div className="media-body mg-l-10">
-              <h6 className="mg-b-0">{channel?.name}<span className="mg-l-10 tx-color-04">{params.channelId}</span></h6>         
+            <div className="media-body mg-l-10 mg-t-8">
+              <h6 className="d-flex mg-b-0">{channel?.name}</h6>
+              <small className="d-block tx-color-04">{params.channelId}</small>
             </div>
-          </div>
+          </Fragment>
         )
       }
-    </Fragment>
+    </div>
   )
 }
 
