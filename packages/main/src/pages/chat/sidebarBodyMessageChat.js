@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAppSelector, useAppDispatch } from '@zio/shared/redux/hooks'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useAppSelector } from '@zio/shared/redux/hooks'
 import { Avatar } from '@zio/components'
 import { RiSearchLine } from "react-icons/ri"
+import { displayCreateAt } from "@zio/shared/methods/utilsDate"
 
 const SidebarBodyMessageChat = () => {
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()  
+  const params = useParams()
+  const paramChannelId = params?.channelId
   const [allChannel,setAllChannel] = useState([])
   const session = useAppSelector(state => state?.session)
   const socketConnection = useAppSelector(state=>state?.session?.socketConnection)
 
   useEffect(()=>{
     if (socketConnection){
-      console.log('session',session)
       socketConnection.emit('sidebar',session._id)
       socketConnection.on('channel-list',(channels)=>{
-        console.log('지금보고있는거',channels)
         setAllChannel(channels)
       })
       return () => { // 재랜더링 될때 호출됨
@@ -28,7 +28,9 @@ const SidebarBodyMessageChat = () => {
   const handleChannelClick = (e, channelId) => {
     e.preventDefault()
     e.stopPropagation()
-    navigate('/chat/'+channelId)
+    channelId === paramChannelId
+      ? navigate('/chat') // 또 한번 클릭 시
+      : navigate('/chat/'+channelId)
   }
 
   return (
@@ -47,10 +49,10 @@ const SidebarBodyMessageChat = () => {
         {
           allChannel.map((channel,index)=>{
             return (
-              <div
+              <a
                   key={channel?._id} 
                   onClick={(e)=>{handleChannelClick(e, channel?._id)}} 
-                  className='media'
+                  className={`media ${channel?._id===paramChannelId ? "active" : ""}`}
                 >
                   <Avatar
                       imageUrl={channel?.channel_pic}
@@ -67,10 +69,9 @@ const SidebarBodyMessageChat = () => {
                           )
                         }                        
                       </h6>
-                      <small className="d-block tx-color-03">1 시간 전, {channel?.lastMsgText}</small>
+                      <small className="d-block tx-color-03">{displayCreateAt(channel?.lastMsgDate)}, {channel?.lastMsgText}</small>
                   </div>
-                  
-              </div>
+              </a>
             )
           })
         }

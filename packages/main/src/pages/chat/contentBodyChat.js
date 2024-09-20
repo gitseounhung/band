@@ -53,11 +53,15 @@ const ContentBodyChat = () => {
       }) 
       // 재 랜더링 될때 해제시키기
       return () => {
-        socketConnection.off("message-channel");
+        socketConnection.off("message-channel"); // 미재거시, 소켓수신모듈이 여러개 생김^^
         socketConnection.off("init messages");
       }
     }
-  },[socketConnection, paramChannelId]) // 소켓은 대화상대랑 상관없이 1번만 맺어지는것임. 메세지 수신은 소켓연결후 1번만 메모리에 위치, 중복호출되면, 소켓수신모듈이 여러개 생김^^
+  },[
+    socketConnection, // 소켓 연결이 될때마다(/chat에 들어와야 소켓연결)
+    paramChannelId, // 대화채널이 변경될때 마다
+    session?._id // F5로 새로고침 (/chat외에도 유지해야해서)
+  ])
 
   useEffect(()=>{ // 새로운 대화발생 시, 수신
     if(socketConnection){      
@@ -104,7 +108,7 @@ const ContentBodyChat = () => {
 
       { // 대화상대자를 선택안했을 때
         !paramChannelId && (
-          <div className="chat-group-divider"><RiUserFollowLine size={30}/><span className="p-2 fs-5">최근 대화 또는, 멤버를 선택하세요.</span></div>
+          <div className="chat-group-divider"><RiUserFollowLine size={30}/><span className="p-2 fs-5">최근 대화 선택, 또는 새 채널을 만드세요.</span></div>
         )
       }
       { // 대화상대자와 대화가 1건도 없을 때

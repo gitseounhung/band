@@ -1,14 +1,18 @@
 import React, {Fragment} from 'react'
 import { Avatar } from '@zio/components'
-import moment from 'moment'
+import { displayFormat, displayCreateAt } from '@zio/shared/methods/utilsDate'
 
 const ContentBodyChatBubble = ({channel,session,msg,isYmd}) => {
   const isMe = session?._id === msg?.writeUser._id // 조인걸었을 때 object덩어리로 변함
+  const dispYmd = isYmd 
+    ? (`${displayFormat(msg.createdAt,'YYYY-MM-DD')} (${displayCreateAt(msg.createdAt)})`) 
+    : ""
+
   return (
     <Fragment>
       { // 날짜 구분선 추가표시
         isYmd && (
-          <div className="chat-group-divider">{moment(msg.createdAt).format('YYYY-MM-DD')}</div>
+          <div className="chat-group-divider">{dispYmd}</div>
         )
       }
       <div className={`
@@ -29,13 +33,13 @@ const ContentBodyChatBubble = ({channel,session,msg,isYmd}) => {
           <h6>
             {
               isMe && (
-                <small className="mg-r-10">{moment(msg.createdAt).format('hh:mm')}</small>
+                <small className="mg-r-10">{displayFormat(msg.createdAt,'hh:mm')}</small>
               )
             }
             {msg?.writeUser?.name}
             {
               !isMe && (
-                <small className="mg-l-10">{moment(msg.createdAt).format('hh:mm')}</small>
+                <small className="mg-l-10">{displayFormat(msg.createdAt,'hh:mm')}</small>
               )
             }
           </h6>

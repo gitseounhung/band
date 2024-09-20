@@ -26,7 +26,7 @@ const BodyChat = () => {
     return ()=>{ // 리턴의 의미: 다시실행할때 실행되었던 코드가 clean-up하는 의미임 (내부에서 socketConnection 클리어의미)
       socketConnection.disconnect()
     }
-  },[]) //두번째 아규먼트는 값이변하면 useEffect 다시 실행
+  },[]) //최초1번 실행
   
   return (
     <div className="chat-wrapper">

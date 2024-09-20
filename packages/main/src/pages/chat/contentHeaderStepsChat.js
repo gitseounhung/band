@@ -1,37 +1,41 @@
 import React, { Fragment } from 'react'
 import { useParams } from 'react-router-dom'
-import { Avatar } from '@zio/components'
 import { useAppSelector } from '@zio/shared/redux/hooks'
+import FeatherIcon from 'feather-icons-react';
 
 const ContentHeaderStepsChat = () => {
   const params = useParams()
   const channel = useAppSelector(state=>state.channel)
   
   return (
-    <div className="media align-items-center">
+
+    <div className="dropdown dropdown-steps">
       {
         !params.channelId && (
-          <span className="tx-color-04">최근 대화 또는 멤버를 선택하세요.</span>
+          <a className="tx-13 dropdown-title breadcrumb-title" data-toggle="dropdown">
+            <span>최근 대화 선택, 또는 새 채널을 만드세요.</span> 
+          </a>
         )
       }
       {
         params.channelId && (
           <Fragment>
-            <Avatar
-              userId={channel?._id}
-              name={channel?.name}
-              imageUrl={channel?.channel_pic}
-              width={32}
-              height={32}
-            />
-            <div className="media-body mg-l-10 mg-t-8">
-              <h6 className="d-flex mg-b-0">{channel?.name}</h6>
-              <small className="d-block tx-color-04">{params.channelId}</small>
-            </div>
+            <a className="tx-13 dropdown-title breadcrumb-title" data-toggle="dropdown">
+              <span>지오젝</span> 
+            </a>
+            <span className="m-lg-2 tx-color-03"><FeatherIcon icon="chevron-right"/></span>
+            <a className="tx-13 ficon-15 dropdown-title breadcrumb-title" data-toggle="dropdown">
+              <span>스크럼</span>
+            </a>
+            <span className="m-lg-2 tx-color-03"><FeatherIcon icon="chevron-right"/></span>
+            <a className="tx-13 dropdown-title breadcrumb-title" data-toggle="dropdown">
+              <span>{channel?.name}</span> 
+            </a>
           </Fragment>
         )
       }
     </div>
+
   )
 }
 

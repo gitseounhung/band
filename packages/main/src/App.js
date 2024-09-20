@@ -28,7 +28,7 @@ function App() {
     .catch(()=>{
       navigate('/signin')
     })    
-  },[])
+  },[]) // 한번만 호출
 
   const { darkMode } = useAppSelector((state)=>state.theme)
   if (darkMode===undefined || darkMode) {
