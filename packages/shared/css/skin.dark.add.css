@@ -14,7 +14,22 @@
   background-color: #24324d; }
   .dropdown-item {
     color: #97a3b9; }
+
+/*
+div:where(.swal2-container).swal2-backdrop-show {
+  background: #10151e !important;
+  opacity: 70%;
+}
 div:where(.swal2-container) div:where(.swal2-popup) {
-  background: #29292e;
+  background: #1c273c !important;
   color: #545454;
-}    
+}
+*/
+
+.chat-btn-add:hover {
+  color: #fff;
+}
+
+.chat-sidebar-header .dropdown-link > span {
+  color: #8392a5 !important; 
+}

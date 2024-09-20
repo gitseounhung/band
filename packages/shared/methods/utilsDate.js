@@ -1,8 +1,12 @@
 // 이렇게 라이브러리를 임포트해주고
 import moment from 'moment'
 
+export const displayFormat = (date,format) => {
+  return moment(date).format(format)
+}
+
 // 2017-08-28 17:22:21 요렇게 들어오는 데이터를 잘 요리해준다
-const displayCreateAt = (createdAt) => {
+export const displayCreateAt = (createdAt) => {
   let now = moment(new Date()) // 오늘 날짜
   let duration = moment.duration(now.diff(createdAt)) // 오늘과의 시간 차이
 
@@ -17,7 +21,7 @@ const displayCreateAt = (createdAt) => {
   
   // 그래서 사용할 때는 parseInt 를 사용해 int 로 바꿔야 한다. 
   if (minute < 1) { // 1분 미만이면 초 단위로 보여주고,  
-    return parseInt(seconds) + '초 전'
+    return '방금' //parseInt(seconds) + '초 전'
   } else if (hours < 1) { // 1시간 미만이면 분 단위로 보여주고
     return parseInt(minute) + '분 전'
   } else if (hours < 24) { // 하루 미만이면 시간으로 보여주고
@@ -33,4 +37,3 @@ const displayCreateAt = (createdAt) => {
   }
 }
 
-export default displayCreateAt
