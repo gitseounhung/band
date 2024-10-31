@@ -39,7 +39,11 @@ const Navbar = ({menus}) => {
           const hasChildren = hasSubmenu || hasMegamenu
           return (
             <li key={navId} className={`nav-item ${hasChildren ? "with-sub" : ""}`} onClick={(e)=>clickHandler(e,hasChildren)}>
-              <Link to={nav.url} className="nav-link">{<NavIcon/>} {navLabel}</Link>
+              {
+                nav?.url?.substring(0,4) === 'http' 
+                ? (<a href="#" onClick={()=>window.open(`${nav.url}`,'_self')} className="nav-link">{<NavIcon/>} {navLabel}</a>)
+                : (<Link to={nav.url} className="nav-link">{<NavIcon/>} {navLabel}</Link>)
+              }
               {
                 submenu && (
                   <ul className="navbar-menu-sub">
@@ -51,7 +55,13 @@ const Navbar = ({menus}) => {
                           )
                         }else{
                           return (
-                            <li key={id} className="nav-sub-item"><Link to={url} className="nav-sub-link">{<Icon/>}{label}</Link></li>
+                            <li className="nav-sub-item">
+                              {
+                                url.substring(0,4) === 'http'
+                                ? (<a href="#" onClick={()=>window.open(`${url}`,'_self')} className="nav-sub-link">{<Icon/>}{label}</a>)
+                                : (<Link to={url} className="nav-sub-link">{<Icon/>}{label}</Link>)
+                              }
+                            </li>
                           )
                         }
                       })
@@ -71,7 +81,13 @@ const Navbar = ({menus}) => {
                               {
                                 megaNav.submenu.map(({id,label,url,Icon})=>{
                                   return (
-                                    <li key={id} className="nav-sub-item"><Link to={url} className="nav-sub-link">{<Icon/>} {label}</Link></li>
+                                    <li key={id} className="nav-sub-item">
+                                      {
+                                        url.substring(0,4) === 'http'
+                                        ? (<a href="#" onClick={()=>window.open(`${url}`,'_self')} className="nav-sub-link">{<Icon/>} {label}</a>)
+                                        : (<Link to={url} className="nav-sub-link">{<Icon/>} {label}</Link>)
+                                      }
+                                    </li>
                                   )
                                 })
                               }                                                          

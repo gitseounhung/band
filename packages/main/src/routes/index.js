@@ -8,6 +8,7 @@ import SettingsPage from '../pages/settings/settingsPage'
 import SignIn from "../pages/signIn";
 import SignOut from "../pages/signUp";
 import { Blank } from '@zio/components'
+import Gateway from "../gateway";
 
 const router = createBrowserRouter([{
   path: "/",
@@ -43,6 +44,9 @@ const router = createBrowserRouter([{
       element: <Page404/>
     }
   ]
+},{
+  path: "gateway",
+  element: <Gateway/>
 }])
 
 export default router

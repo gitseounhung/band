@@ -18,6 +18,7 @@ import {
   Archive,
   AlertCircle,
 } from "react-feather";
+const baseUrl = "https://zioject.com:1209"
 
 const menus = [
   {
@@ -29,7 +30,7 @@ const menus = [
           {
               id: 11,
               label: "대시보드",
-              url: "/dashboard-one",
+              url: `${baseUrl}/apps/dashboard`,
               Icon: BarChart2,
           },
           {
@@ -39,13 +40,13 @@ const menus = [
           {
               id: 13,
               label: "다른 워크스페이스로 이동",
-              url: "/dashboard-three",
+              url: `${baseUrl}/apps/app-workspace-list`,
               Icon: BarChart2,
           },
           {
               id: 14,
               label: "나가기",
-              url: "/dashboard-four",
+              url: `${baseUrl}/apps/app-signout`,
               Icon: BarChart2,
           },
       ],
@@ -59,31 +60,31 @@ const menus = [
           {
               id: 21,
               label: "목표 (OKR)",
-              url: "/apps/calendar",
+              url: `${baseUrl}/apps/app-okr-kr`,
               Icon: Calendar,
           },
           {
               id: 22,
               label: "작업 (Initialtives)",
-              url: "/chat",
+              url: `${baseUrl}/apps/app-okr-task`,
               Icon: MessageSquare,
           },
           {
               id: 23,
               label: "참여 (대화C, 피드백F, 인정R)",
-              url: "/apps/contacts",
+              url: `${baseUrl}/apps/app-okr-cfr`,
               Icon: Users,
           },
           {
               id: 24,
               label: "내가 도울 일",
-              url: "/apps/file-manager",
+              url: `${baseUrl}/apps/app-assist`,
               Icon: FileText,
           },
           {
               id: 25,
               label: "분석 및 리뷰 (AAR)",
-              url: "/apps/mail",
+              url: `${baseUrl}/apps/app-okr-report`,
               Icon: Mail,
           },
           {
@@ -93,19 +94,19 @@ const menus = [
           {
               id: 27,
               label: "나의 참여 현황",
-              url: "/apps/mail",
+              url: `${baseUrl}/apps/app-cfr`,
               Icon: Mail,
           },
           {
               id: 28,
               label: "나의 포인트 현황",
-              url: "/apps/mail",
+              url: `${baseUrl}/apps/app-cfr-myPoint`,
               Icon: Mail,
           },
           {
               id: 29,
               label: "나의 성장 레포트",
-              url: "/apps/mail",
+              url: `${baseUrl}/apps/app-cfr-mygrowth`,
               Icon: Mail,
           },
       ],
@@ -119,43 +120,43 @@ const menus = [
         {
             id: 31,
             label: "새 프로젝트",
-            url: "/dashboard-one",
+            url: `${baseUrl}/WorkManage/WM_List?BoxNo=2&amp;oProject=new`,
             Icon: BarChart2,
         },
         {
             id: 32,
             label: "검색",
-            url: "/dashboard-two",
+            url: `${baseUrl}/WorkManage/WM_Search_Result?searchform=none`,
             Icon: BarChart2,
         },
         {
             id: 33,
             label: "탐색기 (MAP)",
-            url: "/dashboard-three",
+            url: `${baseUrl}/WorkManage/ExplorerMap`,
             Icon: BarChart2,
         },
         {
             id: 34,
             label: "프로젝트 함",
-            url: "/dashboard-four",
+            url: `${baseUrl}/WorkManage/WM_List?BoxNo=1`,
             Icon: BarChart2,
         },
         {
             id: 35,
             label: "- 받은 프로젝트",
-            url: "/dashboard-four",
+            url: `${baseUrl}/WorkManage/WM_List?BoxNo=1`,
             Icon: BarChart2,
         },
         {
             id: 36,
             label: "- 보낸 프로젝트",
-            url: "/dashboard-four",
+            url: `${baseUrl}/WorkManage/WM_List?BoxNo=2`,
             Icon: BarChart2,
         },
         {
             id: 37,
             label: "보관함",
-            url: "/dashboard-four",
+            url: `${baseUrl}/WorkManage/Work_Folder`,
             Icon: BarChart2,
         },
     ],
@@ -169,67 +170,67 @@ const menus = [
         {
             id: 41,
             label: "비전",
-            url: "/dashboard-one",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Vision`,
             Icon: BarChart2,
         },
         {
             id: 42,
             label: "로드맵",
-            url: "/dashboard-two",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Roadmap`,
             Icon: BarChart2,
         },
         {
             id: 43,
             label: "플래닝",
-            url: "/dashboard-three",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Planning`,
             Icon: BarChart2,
         },
         {
             id: 44,
             label: "백로그 (할일)",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Backlog`,
             Icon: BarChart2,
         },
         {
             id: 45,
             label: "활동기록",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Record`,
             Icon: BarChart2,
         },
         {
             id: 46,
             label: "스프린트 (Task)",
-            url: "/dashboard-four",
+            url: "#",
             Icon: BarChart2,
         },
         {
             id: 461,
             label: "- 백로그",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_SprintBacklog`,
             Icon: BarChart2,
         },
         {
             id: 462,
             label: "- 데일리스크럼",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_DailyScrum`,
             Icon: BarChart2,
         },
         {
             id: 463,
             label: "- 결과물",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Attach`,
             Icon: BarChart2,
         },
         {
             id: 464,
             label: "- 리뷰",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Review`,
             Icon: BarChart2,
         },
         {
             id: 465,
             label: "- 회고(평가)",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Agile/Agile_ProjectList?uPath=Agile_Chart`,
             Icon: BarChart2,
         },
     ],      
@@ -243,25 +244,25 @@ const menus = [
         {
             id: 51,
             label: "내부인력",
-            url: "/dashboard-one",
+            url: `${baseUrl}/Resource/inResource`,
             Icon: BarChart2,
         },
         {
             id: 52,
             label: "외부인력",
-            url: "/dashboard-two",
+            url: `${baseUrl}/Resource/exResource`,
             Icon: BarChart2,
         },
         {
             id: 53,
             label: "인력자원 투입현황",
-            url: "/dashboard-three",
+            url: `${baseUrl}/Resource/HRIS_Tech`,
             Icon: BarChart2,
         },
         {
             id: 54,
             label: "업무일지",
-            url: "/dashboard-four",
+            url: `${baseUrl}/Resource/WorkLogList_Day`,
             Icon: BarChart2,
         },
     ],      
@@ -275,13 +276,13 @@ const menus = [
         {
             id: 61,
             label: "메인화면",
-            url: "/dashboard-one",
+            url: "#",
             Icon: BarChart2,
         },
         {
             id: 62,
             label: "화면잠금",
-            url: "/dashboard-two",
+            url: `${baseUrl}/screensaver`,
             Icon: BarChart2,
         },
         {
@@ -297,7 +298,7 @@ const menus = [
         {
             id: 65,
             label: "지오톡으로 대화",
-            url: "/dashboard-four",
+            url: "#",
             Icon: BarChart2,
         },
         {
@@ -307,7 +308,7 @@ const menus = [
         {
             id: 67,
             label: "워크스페이스",
-            url: "/dashboard-four",
+            url: `${baseUrl}/apps/app-workspace-list`,
             Icon: BarChart2,
         },
     ],      

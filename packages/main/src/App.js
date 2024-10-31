@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useAppSelector, useAppDispatch } from '@zio/shared/redux/hooks'
 import { setUser } from '@zio/shared/redux/slices/session';
 
-function App() {
+const App = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { email } = useAppSelector((state)=>state.session)  
