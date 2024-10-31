@@ -1,3 +1,9 @@
 [submodule "packages/backend"]
 	path = packages/backend
-	url = http://gitea.ziotalk.com:3000/ZCP.omega.ZioJect/backend.band.git
+	url = https://github.com/zioject/backend.git
+[submodule "packages/components"]
+	path = packages/components
+	url = https://github.com/zioject/components.git
+[submodule "packages/shared"]
+	path = packages/shared
+	url = https://github.com/zioject/shared.git
